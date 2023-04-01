@@ -53,7 +53,15 @@ router.post('/get_details', async (req, res) => {
     
     try{
         await studentModel.findOne({ _id: new mongoose.Types.ObjectId(id) })
-        .then(data => res.status(200).json(data))
+        .then(data => {
+            if (data === null){
+                throw new Error("Invalid verification")
+            }
+            else{
+                res.status(200).json(data)
+            }
+        }
+        )
         .catch(err => res.status(400).json(err))
     }
     catch(err){
